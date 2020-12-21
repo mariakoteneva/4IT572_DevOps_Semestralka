@@ -8,9 +8,9 @@
         ansible_python_interpreter: /usr/local/bin/python3
       ec2_instance_info:
         region: us-east-1
-        aws_access_key: ASIAQLFOWTE2TMUFPMH4
-        aws_secret_key: YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH
-        security_token: woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD
+        aws_access_key: ASIAQLFOWTE2RHO6U34P
+        aws_secret_key: cUVXcRT7PMxz2lmyjHvq5ubxXjboRQmiORWcy/Sj
+        security_token: FwoGZXIvYXdzEPv//////////wEaDBRrZHRn8JGdcKJXAyLGAbC5N8ZTSTpQzlM/euKN43Ee9uexxZjNZhIWpSfzO6p9N3H1s91g+xy5cN0e5TcOIdqywixU9GHKVCyDslivZa5byQRG43YjwtCqMP4SKzMOneQRjr9oU8a8v8QCw5kbxtyRz7sk4N7RhTVcx1RXib/0+tyF15d51Tm90GA+UUtbDD55TjH/pMEndW3W/gTv3xdZLhv9lszHO6eCL9vf5vb42nVvMTJ0yPQAd+iICaRqEOrdl634sROYlLDwioYCFFYNDHz/OCiNr4P/BTIt1vwpBDbbC2iwGuTG7AG5qMDy1VD1VgBHSpvWwu57Sr6mL7Hm3NF7unNyGCDC
       register: ec2_info
 
     - name: launch EC2 instance
@@ -24,9 +24,9 @@
         wait: yes
         count: 1
         group: eshop
-        aws_access_key: ASIAQLFOWTE2TMUFPMH4
-        aws_secret_key: YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH
-        security_token: woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD
+        aws_access_key: ASIAQLFOWTE2RHO6U34P
+        aws_secret_key: cUVXcRT7PMxz2lmyjHvq5ubxXjboRQmiORWcy/Sj
+        security_token: FwoGZXIvYXdzEPv//////////wEaDBRrZHRn8JGdcKJXAyLGAbC5N8ZTSTpQzlM/euKN43Ee9uexxZjNZhIWpSfzO6p9N3H1s91g+xy5cN0e5TcOIdqywixU9GHKVCyDslivZa5byQRG43YjwtCqMP4SKzMOneQRjr9oU8a8v8QCw5kbxtyRz7sk4N7RhTVcx1RXib/0+tyF15d51Tm90GA+UUtbDD55TjH/pMEndW3W/gTv3xdZLhv9lszHO6eCL9vf5vb42nVvMTJ0yPQAd+iICaRqEOrdl634sROYlLDwioYCFFYNDHz/OCiNr4P/BTIt1vwpBDbbC2iwGuTG7AG5qMDy1VD1VgBHSpvWwu57Sr6mL7Hm3NF7unNyGCDC
       register: ec2
 
     - name: Add instance host to group
@@ -34,7 +34,7 @@
       with_items: '{{ec2.instances}}'
 
     - name: Wait for SSH connection
-      wait_for: host={{ item.public_dns_name }} port=22 delay=30 timeout=600 state=started
+      wait_for: host={{ item.public_dns_name }} port=22 delay=30 timeout=300 state=started
       with_items: '{{ec2.instances}}'
 
 - name: Configure EC2
@@ -55,15 +55,15 @@
       become: yes
     - name: Get project files from docker
       git:
-         repo: 'https://github.com/mariakoteneva/4IT572_DevOps_Semestralka.git'
+         repo: "https://github.com/mariakoteneva/4IT572_DevOps_Semestralka.git"
          dest: ./app
     - name: Build docker with eshop
       shell: cd app && docker build -t myeshop:latest .
       become: yes
     - name: Run Docker with eshop
       shell: docker run -p 80:3000 myeshop
-      async: 90
-      poll: 10
+      async: 120
+      poll: 0
       become: yes
     - wait_for:
         port: 80
@@ -78,9 +78,9 @@
         region: us-east-1
         state: 'absent'
         instance_ids: '{{ item.instance_id }}'
-        aws_access_key: ASIAQLFOWTE2TMUFPMH4
-        aws_secret_key: YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH
-        security_token: woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD
+        aws_access_key: ASIAQLFOWTE2RHO6U34P
+        aws_secret_key: cUVXcRT7PMxz2lmyjHvq5ubxXjboRQmiORWcy/Sj
+        security_token: FwoGZXIvYXdzEPv//////////wEaDBRrZHRn8JGdcKJXAyLGAbC5N8ZTSTpQzlM/euKN43Ee9uexxZjNZhIWpSfzO6p9N3H1s91g+xy5cN0e5TcOIdqywixU9GHKVCyDslivZa5byQRG43YjwtCqMP4SKzMOneQRjr9oU8a8v8QCw5kbxtyRz7sk4N7RhTVcx1RXib/0+tyF15d51Tm90GA+UUtbDD55TjH/pMEndW3W/gTv3xdZLhv9lszHO6eCL9vf5vb42nVvMTJ0yPQAd+iICaRqEOrdl634sROYlLDwioYCFFYNDHz/OCiNr4P/BTIt1vwpBDbbC2iwGuTG7AG5qMDy1VD1VgBHSpvWwu57Sr6mL7Hm3NF7unNyGCDC
       loop: "{{ ec2_info.instances }}"
       loop_control:
         label: "{{ item.instance_id }}"
