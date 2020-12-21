@@ -33,6 +33,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "23:8c:d3:a4:b3:35:17:9f:7d:8b:98:fc:29:6e:87:92:82:c5:fd:82"
+      - run: 
+          name: Adding permissions to SSH key file
+          command: chmod 400 ansible/test.pem
       - ansible-playbook/playbook:
           playbook: ansible/ec2_deploy.yml
           playbook-options: --user ubuntu
