@@ -53,7 +53,7 @@
          state: started
          enabled: yes
       become: yes
-    - name: Get project files from docker
+    - name: Get project files from Git
       git:
          repo: "https://github.com/mariakoteneva/4IT572_DevOps_Semestralka.git"
          dest: ./app
@@ -62,8 +62,8 @@
       become: yes
     - name: Run Docker with eshop
       shell: docker run -p 80:3000 myeshop
-      async: 120
-      poll: 0
+      async: 90
+      poll: 10
       become: yes
     - wait_for:
         port: 80
