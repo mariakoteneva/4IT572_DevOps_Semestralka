@@ -62,8 +62,8 @@
       become: yes
     - name: Run Docker with eshop
       shell: docker run -p 80:3000 myeshop
-      async: 90
-      poll: 10
+      async: 120
+      poll: 0
       become: yes
     - wait_for:
         port: 80
