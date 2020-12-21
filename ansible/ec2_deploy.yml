@@ -8,9 +8,9 @@
         ansible_python_interpreter: /usr/local/bin/python3
       ec2_instance_info:
         region: us-east-1
-        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
-        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
-        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
+        aws_access_key: "ASIAQLFOWTE2TMUFPMH4"
+        aws_secret_key: "YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH"
+        security_token: "woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD"
       register: ec2_info
 
     - name: launch EC2 instance
@@ -24,9 +24,9 @@
         wait: yes
         count: 1
         group: eshop
-        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
-        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
-        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
+        aws_access_key: "ASIAQLFOWTE2TMUFPMH4"
+        aws_secret_key: "YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH"
+        security_token: "woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD"
       register: ec2
 
     - name: Add instance host to group
@@ -78,9 +78,9 @@
         region: us-east-1
         state: 'absent'
         instance_ids: '{{ item.instance_id }}'
-        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
-        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
-        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
+        aws_access_key: "ASIAQLFOWTE2TMUFPMH4"
+        aws_secret_key: "YV26BsnKA8r6iGgZsBv9p/f47MF8PffMl1tO9ENH"
+        security_token: "woGZXIvYXdzEPr//////////wEaDPRyuH6yT0VCp9OirSLGAVN+D7SeyXADuHGSLKoxwxsOEvH0p9Qzk94TOjMGAqI5XygoHeFf9A2nPp3atQsVbW54+oG4k6DEDyx6I4oydCa+C4UqKaXhUBVzZ83Evjz4SCK05wja88BeU4ZkQ36WhL8IFPs0cLHQv/2yXzVcNEYp/dYJwuRSTbhSO9QoVLpZ5MYJ+g2RqaAOAKktfzcyi8MqBvLQ7lAAUEpdNILgr5eIX8o2DrOXHDhz8GbId6iZR7MOu2RTZbvVVfTDOKxGeeK80TRIYyj6joP/BTItvnO3Y+BsSeUbgXhjyJS4h5FW6F3bpLEGPcHVrYV0CI6OcxKo/8vKBryv3/yD"
       loop: "{{ ec2_info.instances }}"
       loop_control:
         label: "{{ item.instance_id }}"
