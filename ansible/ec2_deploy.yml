@@ -3,6 +3,16 @@
   connection: local
 
   tasks:
+    - name: Locate running EC2 instances
+      vars:
+        ansible_python_interpreter: /usr/local/bin/python3
+      ec2_instance_info:
+        region: us-east-1
+        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
+        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
+        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
+      register: ec2_info
+
     - name: launch EC2 instance
       ec2:
         instance_type: t2.small
@@ -14,9 +24,9 @@
         wait: yes
         count: 1
         group: eshop
-        aws_access_key: "ASIAQLFOWTE2S7IPPENB"
-        aws_secret_key: "P0qZc5DWzp+OmpOX+GZhUpGfIytL53TquOAkRaUz"
-        security_token: "FwoGZXIvYXdzECcaDNTr0By6KpceClzK3SLGAdvzdNcrCkKTus7hQa9EaFLIQVwVD88R6HVN1duPmS9DYl6VCYxtH+K9pP5oVxSfzelUDwqnlf/0/Tehj1lQmRxB9nf57ORUR6fk0Y07W8AWIHMWJU2lqI1AIgiWXHYn8cXczzT3cM5iiZOPL/xyqIpZ6Yli9mt9p1yd5DIYaS8amS6euTzPsf9r65ntHdLnv3BDSzoami9IPITFhzDZDjWZVKlGCIntki9GES3xjZL/Cts5SFf5rBTCowUystebWCFB28jLsyiY7NT+BTIt1CdJ3C9IiBzFHBR4lK4BmsLhuxg2qLbNPFN+k7IwHecRO1krHv3njVEv1c0E"
+        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
+        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
+        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
       register: ec2
 
     - name: Add instance host to group
@@ -30,7 +40,7 @@
 - name: Configure EC2
   hosts: launched
   connection: ssh
-  
+
   tasks:
     - name: Install docker
       apt:
@@ -45,7 +55,7 @@
       become: yes
     - name: Get project files from git
       git:
-         repo: 'https://github.com/mariakoteneva/4IT572_ZS_2020_circleci.git'
+         repo: 'https://github.com/mariakoteneva/4IT572_DevOps_Semestralka.git'
          dest: ./app
     - name: Build docker with eshop
       shell: cd app && docker build -t myeshop:latest .
@@ -58,3 +68,19 @@
     - wait_for:
         port: 80
 
+- name: Terminate previous instances
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Terminate previous instances
+      ec2:
+        region: us-east-1
+        state: 'absent'
+        instance_ids: '{{ item.instance_id }}'
+        aws_access_key: "ASIAQLFOWTE236RUZW4Z"
+        aws_secret_key: "P5Dyc+2K0BvNPC94ptNwQZL04IUfpXLAZUF/iNWZ"
+        security_token: "FwoGZXIvYXdzEPj//////////wEaDBG/bqgbkKaU5cFSGiLGAbEiOGPaM81qHvszPahV9XY7UgYtdLayRQsSu91K0xZQKFt8KNngPhxo9SiyF8UXYhTlYpcV+ppc2/QWrZWvsdyRJRGEUUnG1kwbSA3dvIzeEvSmOhzR2XofRm00nJecQ5HbVxp4bWV4Oc+vabrelPWcQr6Z2toVu1ww2SQd/i1sMXTkbgYg06OOh9/eGc4UWu7+pHkF+ub/nXv+9Ly0gBn01g0tl9bk7yR6V5+hYbOc1YS/bkpeXrTCxeIsbbHOW7KV8Hs4gCjk3YL/BTItv8Rx4EXB78cry/kN96dZ+SaiYy20yIgS8zy8rYD3ZL+dGiOYKEBDpJKwO8ki"
+      loop: "{{ ec2_info.instances }}"
+      loop_control:
+        label: "{{ item.instance_id }}"
